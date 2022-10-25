@@ -25,11 +25,9 @@ export class AuthService {
       const newUser = this.userRepository.create(signUpDto)
       newUser.id = uuidv4()
       newUser.password = await this.encryptPassword(newUser.password)
-      Logger.log('user password: ', newUser.password)
       await this.userRepository.save(newUser)
       return newUser;
     } catch {
-      // throw new Error('Sorry the user was not created. Bye')
       throw new BadRequestException()
     }
   }
@@ -39,7 +37,6 @@ export class AuthService {
     const hash = await bcrypt.hash(password, saltOrRounds)
 
     return hash
-
   }
 
 
