@@ -4,4 +4,5 @@ export class SignUpDto {
   firstName: string
   lastName: string
   birthday?: string
+  logoUrl?: string
 }
