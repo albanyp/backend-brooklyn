@@ -6,12 +6,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { dbConfig } from './data-source';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dbConfig),
     ConfigModule.forRoot(), 
-    AuthModule
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
