@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Logger, Query } from '@nestjs/common'
+import { Controller, Get, Param, Query } from '@nestjs/common'
 import { FindUsersDto } from './find-users.dto';
 import { UsersService } from './users.service';
 
@@ -10,7 +10,6 @@ export class UsersController {
 
   @Get(':id')
   async findUser(@Param() params) {
-    Logger.log(params.id)
     return this.usersService.getUser(params.id)
   } 
 

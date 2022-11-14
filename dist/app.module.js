@@ -33,7 +33,7 @@ AppModule = __decorate([
                 password: 'masterkey',
                 database: 'brooklyn',
                 entities: [],
-                synchronize: true
+                synchronize: false
             }),
             config_1.ConfigModule.forRoot(),
             auth_module_1.AuthModule

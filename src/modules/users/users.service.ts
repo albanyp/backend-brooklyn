@@ -1,7 +1,7 @@
 import { Injectable, Query } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from '../../entity/User'
+import { User } from '../../entity/user'
 import { FindUsersDto } from './find-users.dto'
 import { PAGE_SIZE } from '../../constants'
 

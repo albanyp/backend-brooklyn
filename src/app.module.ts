@@ -7,13 +7,15 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { dbConfig } from './data-source';
 import { UsersModule } from './modules/users/users.module';
+import { MovieTypeModule } from './modules/movie-type/movie-type.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dbConfig),
     ConfigModule.forRoot(), 
     AuthModule,
-    UsersModule
+    UsersModule,
+    MovieTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

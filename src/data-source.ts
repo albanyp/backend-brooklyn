@@ -1,6 +1,9 @@
 import "reflect-metadata"
 import { DataSource, DataSourceOptions } from "typeorm"
-import { User } from "./entity/User"
+import { Movie } from "./entity/movie"
+import { MovieFrancise } from "./entity/movie-franchise"
+import { MovieType } from "./entity/movie-type"
+import { User } from "./entity/user"
 
 export const dbConfig: DataSourceOptions = {
   type: "postgres",
@@ -11,7 +14,7 @@ export const dbConfig: DataSourceOptions = {
   database: "brooklyn",
   synchronize: false,
   logging: false,
-  entities: [User],
+  entities: [User, Movie, MovieType, MovieFrancise],
   subscribers: [],
 }
 
