@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { dbConfig } from './data-source';
 import { UsersModule } from './modules/users/users.module';
 import { MovieTypeModule } from './modules/movie-type/movie-type.module';
+import { MovieFranchiseModule } from './modules/movie-franchise/movie-franchise.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MovieTypeModule } from './modules/movie-type/movie-type.module';
     ConfigModule.forRoot(), 
     AuthModule,
     UsersModule,
+    MovieFranchiseModule,
     MovieTypeModule,
   ],
   controllers: [AppController],

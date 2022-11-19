@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn } from 'typeorm'
 import {v4 as uuid } from 'uuid'
 
 @Entity('movie_franchise')
-export class MovieFrancise {
+export class MovieFranchise {
   @PrimaryColumn({
     default: () => uuid
   })
