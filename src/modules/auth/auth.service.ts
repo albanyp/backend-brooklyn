@@ -1,11 +1,9 @@
-import { Injectable, Logger, BadRequestException } from '@nestjs/common'
-import { CipherCCMTypes, CipherGCMTypes, CipherKey, createCipheriv, randomBytes, scrypt } from 'crypto'
+import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { User } from '../../entity/user'
 import { SignUpDto } from './dtos/sign-up.dto'
 import { v4 as uuidv4 } from 'uuid'  
-import { promisify } from 'util'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()

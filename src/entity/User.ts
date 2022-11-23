@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Generated, PrimaryColumn } from "typeorm"
+import { Entity, Column, PrimaryColumn } from "typeorm"
 import { v4 as uuidv4 } from 'uuid' 
 
 @Entity('user')
@@ -25,6 +25,9 @@ export class User {
     name: 'last_name'
   })
   lastName: string
+
+  @Column()
+  nickname: string
 
   @Column()
   birthdate: Date

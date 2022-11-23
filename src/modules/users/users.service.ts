@@ -40,4 +40,21 @@ export class UsersService {
     }
   }
 
+  async updateUser(id: string, data: Object) {
+    const user = await this.getUser(id)
+
+    if (user) {
+      const newUserData = Object.keys(data)
+      const dataToUpdate = {}
+
+      newUserData.forEach(item => {
+        if (data[item] !== user[item]) {
+          dataToUpdate[item] = data[item]
+        }
+      })
+
+      this.userRepository.update(id, dataToUpdate)
+    }
+  }
+
 }
