@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common'
+import { BadRequestException, ConflictException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovieFranchise } from '../../entity/movie-franchise';
@@ -14,13 +14,19 @@ export class MovieFranchiseService {
   async getFranchises(params?: FindMovieFranchiseDto) {
     const page = params && params.pageNumber ? params.pageNumber : null
     const size = params && params.pageSize ? params.pageSize : PAGE_SIZE
+    const name = params && params.name ? params.name : null
 
     if (page) {
-      const [franchise, total] = await this.movieFranchiseRepository
-        .createQueryBuilder('MovieFranchise')
+      const queryBuilder = await this.movieFranchiseRepository
+        .createQueryBuilder('movieFranchise')
         .skip((page - 1) * size)
         .take(size * page)
-        .getManyAndCount()
+
+        if(name) {
+          queryBuilder.where('movieFranchise.name ilike :franchiseName', { franchiseName: `%${name}%` })
+        }
+
+        const [franchise, total] = await queryBuilder.getManyAndCount()
 
       return {
         data: franchise,
@@ -57,9 +63,14 @@ export class MovieFranchiseService {
   }
 
   async updateFranchise(id: string, body: MovieFranchiseDto) {
+    // is there a way it can fail?
+    // can a user try to update an id that doesnt exist
+
+    // verify updated content, is it the same?
+    // updated "updated_at"
     if(body && body.name) {
       const franchiseToBeUpdated = await this.getFranchise(id)
-      
+      Logger.log('franchise!', franchiseToBeUpdated)
       if(franchiseToBeUpdated) {
         if(franchiseToBeUpdated.name !== body.name) {
           const contentToBeUpdated = body
@@ -73,7 +84,7 @@ export class MovieFranchiseService {
             throw new ConflictException()
           }
         } else {
-          throw new BadRequestException()
+          Logger.log('already up to date')
         }
       } 
     }

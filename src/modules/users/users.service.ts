@@ -20,11 +20,28 @@ export class UsersService {
     const size = params?.pageSize || PAGE_SIZE
 
     if (page) {
-      const [users, total] = await this.userRepository
+      const queryBuilder = await this.userRepository
         .createQueryBuilder('user')
         .skip((page - 1) * size)
         .take(page * size)
-        .getManyAndCount()
+
+        if(params.firstName) {
+          queryBuilder.where('user.firstName ilike :firstName', { firstName: `%${params.firstName}%` })
+        }
+
+        if(params.lastName) {
+          queryBuilder.andWhere('user.lastName ilike :lastName', { lastName: `%${params.lastName}%`})
+        }
+
+        if(params.email) {
+          queryBuilder.andWhere('user.email ilike :email', { email: `%${params.email}%`})
+        }
+
+        if(params.nickname) {
+          queryBuilder.andWhere('user.nickname ilike :nickname', { nickname: `%${params.nickname}%`})
+        }
+
+        const [users, total] = await queryBuilder.getManyAndCount()
 
       return {
         data: users,
