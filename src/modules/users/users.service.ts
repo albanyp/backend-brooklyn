@@ -59,14 +59,31 @@ export class UsersService {
 
   async updateUser(id: string, data: Object) {
     const user = await this.getUser(id)
+    const newUser = user
 
     if (user) {
       const newUserData = Object.keys(data)
-      const dataToUpdate = {}
 
       newUserData.forEach(item => {
         if (data[item] !== user[item]) {
-          dataToUpdate[item] = data[item]
+          newUser[item] = data[item]
+        }
+      })
+
+      this.userRepository.save(newUser)
+    }
+  }
+
+  async updateUserProperties(id: string, props: Object) {
+    const userToBeUpdated = await this.getUser(id)
+
+    if(userToBeUpdated) {
+      const newUserData = Object.keys(props)
+      const dataToUpdate = {}
+
+      newUserData.forEach(item => {
+        if (props[item] !== userToBeUpdated[item]) {
+          dataToUpdate[item] = props[item]
         }
       })
 
