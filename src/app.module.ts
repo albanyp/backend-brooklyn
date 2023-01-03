@@ -9,6 +9,7 @@ import { dbConfig } from './data-source';
 import { UsersModule } from './modules/users/users.module';
 import { MovieTypeModule } from './modules/movie-type/movie-type.module';
 import { MovieFranchiseModule } from './modules/movie-franchise/movie-franchise.module';
+import { MovieModule } from './modules/movie/movie.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MovieFranchiseModule } from './modules/movie-franchise/movie-franchise.
     ConfigModule.forRoot(), 
     AuthModule,
     UsersModule,
+    MovieModule,
     MovieFranchiseModule,
     MovieTypeModule,
   ],

@@ -48,6 +48,11 @@ export class MovieFranchiseService {
     return franchise
   }
 
+  async getFranchiseByName(title: string) {
+    const franchiseId = await this.movieFranchiseRepository.findOneBy({ name: title })
+    if(franchiseId) return franchiseId.id
+  }
+
   async createFranchise(movieFranchiseDto: MovieFranchiseDto) {
     try {
       const newMovieFranchise = this.movieFranchiseRepository.create(movieFranchiseDto)
@@ -63,14 +68,8 @@ export class MovieFranchiseService {
   }
 
   async updateFranchise(id: string, body: MovieFranchiseDto) {
-    // is there a way it can fail?
-    // can a user try to update an id that doesnt exist
-
-    // verify updated content, is it the same?
-    // updated "updated_at"
     if(body && body.name) {
       const franchiseToBeUpdated = await this.getFranchise(id)
-      Logger.log('franchise!', franchiseToBeUpdated)
       if(franchiseToBeUpdated) {
         if(franchiseToBeUpdated.name !== body.name) {
           const contentToBeUpdated = body
@@ -88,9 +87,6 @@ export class MovieFranchiseService {
         }
       } 
     }
-
-
-
   }
 
   async deleteFranchise(id: string) {
