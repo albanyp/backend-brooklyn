@@ -6,7 +6,7 @@ import { FindUsersParamsDto } from './dtos/find-users-params.dto'
 import { PAGE_SIZE } from '../../constants'
 import { UpdateUserDto } from './dtos/update-user.dto'
 import { PaginationResponse } from '../../helpers/pagination-response'
-import { UserPatchDto } from './dtos/user-patch-dto'
+import { UserPatchDto } from './dtos/patch-user.dto'
 import { validateEntityKeys } from '../../helpers/patch-utils'
 
 @Injectable()
@@ -78,7 +78,7 @@ export class UsersService {
     }
   }
 
-  async patchUser(id: string, dto: UserPatchDto) {
+  async patchUser(id: string, dto: UserPatchDto): Promise<User> {
     const validKeys = ['firstName', 'lastName', 'email', 'birthdate', 'nickname', 'logoUrl']
     validateEntityKeys(validKeys, dto)
 
@@ -94,20 +94,6 @@ export class UsersService {
         [dto.key]: dto.value
       }
     }
-
-
-    // if(userToBeUpdated) {
-    //   const newUserData = Object.keys(props)
-    //   const dataToUpdate = {}
-
-    //   newUserData.forEach(item => {
-    //     if (props[item] !== userToBeUpdated[item]) {
-    //       dataToUpdate[item] = props[item]
-    //     }
-    //   })
-
-    //   this.userRepository.update(id, dataToUpdate)
-    // }
   }
 
 }

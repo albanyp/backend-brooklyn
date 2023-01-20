@@ -2,7 +2,7 @@ import { BadRequestException, ConflictException, Injectable, Logger } from '@nes
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovieFranchise } from '../../entity/movie-franchise';
-import { MovieFranchiseDto } from './dtos/movie-franchise.dto';
+import { UpdateMovieFranchiseDto } from './dtos/update-movie-franchise.dto';
 import { v4 as uuidv4 } from 'uuid'
 import { FindMovieFranchiseDto } from './dtos/find-movie-franchise.dto';
 import { PAGE_SIZE } from '../../constants';
@@ -23,11 +23,11 @@ export class MovieFranchiseService {
         .skip((page - 1) * size)
         .take(size * page)
 
-        if(name) {
-          queryBuilder.where('movieFranchise.name ilike :franchiseName', { franchiseName: `%${name}%` })
-        }
+      if (name) {
+        queryBuilder.where('movieFranchise.name ilike :franchiseName', { franchiseName: `%${name}%` })
+      }
 
-        const [franchise, total] = await queryBuilder.getManyAndCount()
+      const [franchise, total] = await queryBuilder.getManyAndCount()
 
       return {
         data: franchise,
@@ -35,7 +35,7 @@ export class MovieFranchiseService {
       }
     } else {
       const franchises = await this.movieFranchiseRepository.find()
-      
+
       return {
         data: franchises,
         total: franchises.length
@@ -63,25 +63,17 @@ export class MovieFranchiseService {
     }
   }
 
-  async updateFranchise(id: string, body: MovieFranchiseDto) {
-    if(body && body.name) {
+  async updateFranchise(id: string, dto: UpdateMovieFranchiseDto) {
+    if (dto && dto.name) {
       const franchiseToBeUpdated = await this.findFranchise(id)
-      if(franchiseToBeUpdated) {
-        if(franchiseToBeUpdated.name !== body.name) {
-          const contentToBeUpdated = body
-          contentToBeUpdated.updatedAt = new Date()
-          try {
-            this.movieFranchiseRepository.update(
-              id,
-              contentToBeUpdated
-            )
-          } catch {
-            throw new ConflictException()
-          }
-        } else {
-          Logger.log('already up to date')
-        }
-      } 
+
+      if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
+        const contentToBeUpdated = dto
+        contentToBeUpdated.updatedAt = new Date()
+        this.movieFranchiseRepository.update(id,contentToBeUpdated)
+      } else {
+        throw new BadRequestException(`Franchise can't be updated`)
+      }
     }
   }
 

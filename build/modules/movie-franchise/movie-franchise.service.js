@@ -132,30 +132,23 @@ var MovieFranchiseService = /** @class */ (function () {
             });
         });
     };
-    MovieFranchiseService.prototype.updateFranchise = function (id, body) {
+    MovieFranchiseService.prototype.updateFranchise = function (id, dto) {
         return __awaiter(this, void 0, void 0, function () {
             var franchiseToBeUpdated, contentToBeUpdated;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!(body && body.name)) return [3 /*break*/, 2];
+                        if (!(dto && dto.name)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.findFranchise(id)];
                     case 1:
                         franchiseToBeUpdated = _a.sent();
-                        if (franchiseToBeUpdated) {
-                            if (franchiseToBeUpdated.name !== body.name) {
-                                contentToBeUpdated = body;
-                                contentToBeUpdated.updatedAt = new Date();
-                                try {
-                                    this.movieFranchiseRepository.update(id, contentToBeUpdated);
-                                }
-                                catch (_b) {
-                                    throw new common_1.ConflictException();
-                                }
-                            }
-                            else {
-                                common_1.Logger.log('already up to date');
-                            }
+                        if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
+                            contentToBeUpdated = dto;
+                            contentToBeUpdated.updatedAt = new Date();
+                            this.movieFranchiseRepository.update(id, contentToBeUpdated);
+                        }
+                        else {
+                            throw new common_1.BadRequestException("Franchise can't be updated");
                         }
                         _a.label = 2;
                     case 2: return [2 /*return*/];

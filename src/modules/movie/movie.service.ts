@@ -8,6 +8,8 @@ import { FindMovieDto } from './dtos/find-movie.dto';
 import { PAGE_SIZE } from '../../constants';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
 import { PaginationResponse } from '../../helpers/pagination-response';
+import { PatchMovieDto } from '../movie-franchise/dtos/patch-movie.dto';
+import { validateEntityKeys } from '../../helpers/patch-utils';
 
 export class MovieService {
 
@@ -100,26 +102,20 @@ export class MovieService {
     }
   }
 
-  async patchMovie(id: string, newProps: UpdateMovieDto) {
-    try {
-      const movie = await this.findMovie(id)
+  async patchMovie(id: string, dto: PatchMovieDto) {
+    const movie = await this.findMovie(id)
+    const validKeys = ['title', 'groupName', 'author', 'producer', 'releaseDate', 'logoUrl']
+    validateEntityKeys(validKeys, dto)
 
-      if (movie && newProps) {
-        const allowedProps = Object.keys(newProps)
-        let moviePropsToBeUpdated = {}
+    if (movie && movie[dto.key] !== dto.value) {
+      this.movieRepository.update(id, {
+        [dto.key]: dto.value
+      })
 
-        allowedProps.forEach(prop => {
-          if (!movie[prop] || movie[prop] !== newProps[prop]) {
-            moviePropsToBeUpdated[prop] = newProps[prop]
-          }
-        })
-
-        if (Object.keys(moviePropsToBeUpdated).length > 0) {
-          this.movieRepository.update(id, moviePropsToBeUpdated)
-        }
+      return {
+        ...movie,
+        [dto.key]: dto.value
       }
-    } catch {
-      throw new BadRequestException()
     }
   }
 

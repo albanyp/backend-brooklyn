@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Logger, Query } from '@nestjs/common'
 import { Movie } from '../../entity/movie'
 import { PaginationResponse } from '../../helpers/pagination-response'
+import { PatchMovieDto } from '../movie-franchise/dtos/patch-movie.dto'
 import { FindMovieDto } from './dtos/find-movie.dto'
 import { MovieDto } from './dtos/movie.dto'
 import { UpdateMovieDto } from './dtos/update-movie.dto'
@@ -27,13 +28,13 @@ export class MovieController {
   }
 
   @Put('update/:id')
-  async updateMovie(@Param() movieId: { id: string }, @Body() props: FindMovieDto) {
-    this.movieService.updateMovie(movieId.id, props)
+  async updateMovie(@Param('id') movieId: string, @Body() props: FindMovieDto) {
+    this.movieService.updateMovie(movieId, props)
   }
 
   @Patch('update/:id')
-  async patchMovie(@Param() movieId: { id: string }, @Body() props: UpdateMovieDto) {
-    this.movieService.patchMovie(movieId.id, props)
+  async patchMovie(@Param('id') movieId: string, @Body() dto: PatchMovieDto) {
+    this.movieService.patchMovie(movieId, dto)
   }
 
   @Delete(':id')

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -55,6 +66,7 @@ var typeorm_2 = require("typeorm");
 var movie_1 = require("../../entity/movie");
 var uuid_1 = require("uuid");
 var constants_1 = require("../../constants");
+var patch_utils_1 = require("../../helpers/patch-utils");
 var MovieService = /** @class */ (function () {
     function MovieService(movieRepository) {
         this.movieRepository = movieRepository;
@@ -172,33 +184,24 @@ var MovieService = /** @class */ (function () {
             });
         });
     };
-    MovieService.prototype.patchMovie = function (id, newProps) {
+    MovieService.prototype.patchMovie = function (id, dto) {
         return __awaiter(this, void 0, void 0, function () {
-            var movie_3, allowedProps, moviePropsToBeUpdated_1, _a;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.findMovie(id)];
+            var movie, validKeys;
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0: return [4 /*yield*/, this.findMovie(id)];
                     case 1:
-                        movie_3 = _b.sent();
-                        if (movie_3 && newProps) {
-                            allowedProps = Object.keys(newProps);
-                            moviePropsToBeUpdated_1 = {};
-                            allowedProps.forEach(function (prop) {
-                                if (!movie_3[prop] || movie_3[prop] !== newProps[prop]) {
-                                    moviePropsToBeUpdated_1[prop] = newProps[prop];
-                                }
-                            });
-                            if (Object.keys(moviePropsToBeUpdated_1).length > 0) {
-                                this.movieRepository.update(id, moviePropsToBeUpdated_1);
-                            }
+                        movie = _c.sent();
+                        validKeys = ['title', 'groupName', 'author', 'producer', 'releaseDate', 'logoUrl'];
+                        (0, patch_utils_1.validateEntityKeys)(validKeys, dto);
+                        if (movie && movie[dto.key] !== dto.value) {
+                            this.movieRepository.update(id, (_a = {},
+                                _a[dto.key] = dto.value,
+                                _a));
+                            return [2 /*return*/, __assign(__assign({}, movie), (_b = {}, _b[dto.key] = dto.value, _b))];
                         }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        _a = _b.sent();
-                        throw new common_1.BadRequestException();
-                    case 3: return [2 /*return*/];
+                        return [2 /*return*/];
                 }
             });
         });

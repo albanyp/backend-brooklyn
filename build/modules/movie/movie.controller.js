@@ -52,7 +52,6 @@ exports.MovieController = void 0;
 var common_1 = require("@nestjs/common");
 var find_movie_dto_1 = require("./dtos/find-movie.dto");
 var movie_dto_1 = require("./dtos/movie.dto");
-var update_movie_dto_1 = require("./dtos/update-movie.dto");
 var movie_service_1 = require("./movie.service");
 var MovieController = /** @class */ (function () {
     function MovieController(movieService) {
@@ -82,15 +81,15 @@ var MovieController = /** @class */ (function () {
     MovieController.prototype.updateMovie = function (movieId, props) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.movieService.updateMovie(movieId.id, props);
+                this.movieService.updateMovie(movieId, props);
                 return [2 /*return*/];
             });
         });
     };
-    MovieController.prototype.patchMovie = function (movieId, props) {
+    MovieController.prototype.patchMovie = function (movieId, dto) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.movieService.patchMovie(movieId.id, props);
+                this.movieService.patchMovie(movieId, dto);
                 return [2 /*return*/];
             });
         });
@@ -126,18 +125,18 @@ var MovieController = /** @class */ (function () {
     ], MovieController.prototype, "createMovie", null);
     __decorate([
         (0, common_1.Put)('update/:id'),
-        __param(0, (0, common_1.Param)()),
+        __param(0, (0, common_1.Param)('id')),
         __param(1, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object, find_movie_dto_1.FindMovieDto]),
+        __metadata("design:paramtypes", [String, find_movie_dto_1.FindMovieDto]),
         __metadata("design:returntype", Promise)
     ], MovieController.prototype, "updateMovie", null);
     __decorate([
         (0, common_1.Patch)('update/:id'),
-        __param(0, (0, common_1.Param)()),
+        __param(0, (0, common_1.Param)('id')),
         __param(1, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object, update_movie_dto_1.UpdateMovieDto]),
+        __metadata("design:paramtypes", [String, Object]),
         __metadata("design:returntype", Promise)
     ], MovieController.prototype, "patchMovie", null);
     __decorate([

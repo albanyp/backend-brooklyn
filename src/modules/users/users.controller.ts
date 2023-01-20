@@ -3,7 +3,7 @@ import { User } from '../../entity/user';
 import { PaginationResponse } from '../../helpers/pagination-response';
 import { FindUsersParamsDto } from './dtos/find-users-params.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { UserPatchDto } from './dtos/user-patch-dto';
+import { UserPatchDto } from './dtos/patch-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')

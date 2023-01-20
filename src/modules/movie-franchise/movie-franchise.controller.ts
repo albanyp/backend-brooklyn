@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query } from '
 import { MovieFranchise } from '../../entity/movie-franchise'
 import { PaginationResponse } from '../../helpers/pagination-response'
 import { FindMovieFranchiseDto } from './dtos/find-movie-franchise.dto'
-import { MovieFranchiseDto } from './dtos/movie-franchise.dto'
+import { UpdateMovieFranchiseDto } from './dtos/update-movie-franchise.dto'
 import { MovieFranchiseService } from './movie-franchise.service'
 
 @Controller('franchises')
@@ -25,8 +25,8 @@ export class MovieFranchiseController {
   }
 
   @Put('update/:id')
-  async updateFranchise(@Param() params, @Body() content: MovieFranchiseDto) {
-    this.movieFranchiseService.updateFranchise(params.id, content)
+  async updateFranchise(@Param('id') id, @Body() content: UpdateMovieFranchiseDto) {
+    this.movieFranchiseService.updateFranchise(id, content)
   }
 
   @Delete(':id')
