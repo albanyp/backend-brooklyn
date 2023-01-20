@@ -1,4 +1,4 @@
-export class FindUsersDto {
+export class FindUsersParamsDto {
   pageNumber?: number
   pageSize?: number
   firstName?: string

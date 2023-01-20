@@ -7,35 +7,18 @@ import { v4 as uuidv4 } from 'uuid'
 import { FindMovieDto } from './dtos/find-movie.dto';
 import { PAGE_SIZE } from '../../constants';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
+import { PaginationResponse } from '../../helpers/pagination-response';
 
 export class MovieService {
 
   constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>) { }
 
-  async getMovie(id: string) {
+  async findMovie(id: string): Promise<Movie> {
     const movie = await this.movieRepository.findOneBy({ id: id })
     return movie
   }
 
-  async createMovie(movie: MovieDto): Promise<MovieDto> {
-    try {
-      const newMovie = this.movieRepository.create(movie)
-      newMovie.id = uuidv4()
-      newMovie.createdAt = new Date()
-      newMovie.updatedAt = newMovie.createdAt
-
-      if (movie.franchiseId && movie.franchiseId.length > 0) {
-        newMovie.franchiseId = movie.franchiseId
-      }
-      await this.movieRepository.save(newMovie)
-      return newMovie
-
-    } catch {
-      throw new BadRequestException()
-    }
-  }
-
-  async getMovies(props: FindMovieDto) {
+  async findMovies(props: FindMovieDto): Promise<PaginationResponse<Movie>> {
     const pageNumber = props.pageNumber ? props.pageNumber : 1
     const pageSize = props.pageSize ? props.pageSize : PAGE_SIZE
     const movieQueryBuilder = await this.movieRepository
@@ -71,9 +54,28 @@ export class MovieService {
     }
   }
 
+
+  async createMovie(movie: MovieDto): Promise<Movie> {
+    try {
+      const newMovie = this.movieRepository.create(movie)
+      newMovie.id = uuidv4()
+      newMovie.createdAt = new Date()
+      newMovie.updatedAt = newMovie.createdAt
+
+      if (movie.franchiseId && movie.franchiseId.length > 0) {
+        newMovie.franchiseId = movie.franchiseId
+      }
+      await this.movieRepository.save(newMovie)
+      return newMovie
+
+    } catch {
+      throw new BadRequestException()
+    }
+  }
+
   async updateMovie(id: string, propsToBeUpdated: FindMovieDto) {
     try {
-      const movie = await this.getMovie(id)
+      const movie = await this.findMovie(id)
 
       if (movie && propsToBeUpdated) {
         const movieProps = Object.keys(propsToBeUpdated)
@@ -98,9 +100,9 @@ export class MovieService {
     }
   }
 
-  async updateMovieProps(id: string, newProps: UpdateMovieDto) {
+  async patchMovie(id: string, newProps: UpdateMovieDto) {
     try {
-      const movie = await this.getMovie(id)
+      const movie = await this.findMovie(id)
 
       if (movie && newProps) {
         const allowedProps = Object.keys(newProps)

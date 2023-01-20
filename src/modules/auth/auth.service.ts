@@ -24,7 +24,7 @@ export class AuthService {
       newUser.id = uuidv4()
       newUser.password = await this.encryptPassword(newUser.password)
       await this.userRepository.save(newUser)
-      return newUser;
+      return newUser
     } catch {
       throw new BadRequestException()
     }

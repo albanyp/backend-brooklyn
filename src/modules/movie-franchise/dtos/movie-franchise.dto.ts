@@ -1,5 +1,5 @@
 export class MovieFranchiseDto {
- name: string
- createdAt?: Date
- updatedAt?: Date
+  name: string
+  createdAt?: Date
+  updatedAt?: Date
 }

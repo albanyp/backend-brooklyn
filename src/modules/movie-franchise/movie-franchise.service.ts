@@ -6,12 +6,13 @@ import { MovieFranchiseDto } from './dtos/movie-franchise.dto';
 import { v4 as uuidv4 } from 'uuid'
 import { FindMovieFranchiseDto } from './dtos/find-movie-franchise.dto';
 import { PAGE_SIZE } from '../../constants';
+import { PaginationResponse } from '../../helpers/pagination-response';
 
 @Injectable()
 export class MovieFranchiseService {
   constructor(@InjectRepository(MovieFranchise) private movieFranchiseRepository: Repository<MovieFranchise>) { }
 
-  async getFranchises(params?: FindMovieFranchiseDto) {
+  async findFranchises(params?: FindMovieFranchiseDto): Promise<PaginationResponse<MovieFranchise>> {
     const page = params && params.pageNumber ? params.pageNumber : null
     const size = params && params.pageSize ? params.pageSize : PAGE_SIZE
     const name = params && params.name ? params.name : null
@@ -43,19 +44,14 @@ export class MovieFranchiseService {
 
   }
 
-  async getFranchise(param: string) {
+  async findFranchise(param: string): Promise<MovieFranchise> {
     const franchise = await this.movieFranchiseRepository.findOneBy({ id: param })
     return franchise
   }
 
-  async getFranchiseByName(title: string) {
-    const franchiseId = await this.movieFranchiseRepository.findOneBy({ name: title })
-    if(franchiseId) return franchiseId.id
-  }
-
-  async createFranchise(movieFranchiseDto: MovieFranchiseDto) {
+  async createFranchise(movieFranchise: MovieFranchise): Promise<MovieFranchise> {
     try {
-      const newMovieFranchise = this.movieFranchiseRepository.create(movieFranchiseDto)
+      const newMovieFranchise = this.movieFranchiseRepository.create(movieFranchise)
       newMovieFranchise.id = uuidv4()
       newMovieFranchise.createdAt = new Date()
       newMovieFranchise.updatedAt = newMovieFranchise.createdAt
@@ -69,7 +65,7 @@ export class MovieFranchiseService {
 
   async updateFranchise(id: string, body: MovieFranchiseDto) {
     if(body && body.name) {
-      const franchiseToBeUpdated = await this.getFranchise(id)
+      const franchiseToBeUpdated = await this.findFranchise(id)
       if(franchiseToBeUpdated) {
         if(franchiseToBeUpdated.name !== body.name) {
           const contentToBeUpdated = body
