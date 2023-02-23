@@ -75,7 +75,7 @@ export class MovieService {
     }
   }
 
-  async updateMovie(id: string, propsToBeUpdated: FindMovieDto) {
+  async updateMovie(id: string, propsToBeUpdated: FindMovieDto): Promise<Movie> {
     try {
       const movie = await this.findMovie(id)
 
@@ -102,7 +102,7 @@ export class MovieService {
     }
   }
 
-  async patchMovie(id: string, dto: PatchMovieDto) {
+  async patchMovie(id: string, dto: PatchMovieDto): Promise<Movie> {
     const movie = await this.findMovie(id)
     const validKeys = ['title', 'groupName', 'author', 'producer', 'releaseDate', 'logoUrl']
     validateEntityKeys(validKeys, dto)

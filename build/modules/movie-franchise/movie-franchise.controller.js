@@ -51,7 +51,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieFranchiseController = void 0;
 var common_1 = require("@nestjs/common");
 var movie_franchise_1 = require("../../entity/movie-franchise");
-var find_movie_franchise_dto_1 = require("./dtos/find-movie-franchise.dto");
 var movie_franchise_service_1 = require("./movie-franchise.service");
 var MovieFranchiseController = /** @class */ (function () {
     function MovieFranchiseController(movieFranchiseService) {
@@ -81,8 +80,7 @@ var MovieFranchiseController = /** @class */ (function () {
     MovieFranchiseController.prototype.updateFranchise = function (id, content) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.movieFranchiseService.updateFranchise(id, content);
-                return [2 /*return*/];
+                return [2 /*return*/, this.movieFranchiseService.updateFranchise(id, content)];
             });
         });
     };
@@ -98,7 +96,7 @@ var MovieFranchiseController = /** @class */ (function () {
         (0, common_1.Get)(),
         __param(0, (0, common_1.Query)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [find_movie_franchise_dto_1.FindMovieFranchiseDto]),
+        __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], MovieFranchiseController.prototype, "findFranchises", null);
     __decorate([

@@ -28,13 +28,13 @@ export class MovieController {
   }
 
   @Put('update/:id')
-  async updateMovie(@Param('id') movieId: string, @Body() props: FindMovieDto) {
-    this.movieService.updateMovie(movieId, props)
+  async updateMovie(@Param('id') movieId: string, @Body() props: FindMovieDto): Promise<Movie> {
+    return this.movieService.updateMovie(movieId, props)
   }
 
   @Patch('update/:id')
-  async patchMovie(@Param('id') movieId: string, @Body() dto: PatchMovieDto) {
-    this.movieService.patchMovie(movieId, dto)
+  async patchMovie(@Param('id') movieId: string, @Body() dto: PatchMovieDto): Promise<Movie> {
+    return this.movieService.patchMovie(movieId, dto)
   }
 
   @Delete(':id')

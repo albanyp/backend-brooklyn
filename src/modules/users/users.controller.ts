@@ -21,12 +21,12 @@ export class UsersController {
   }
 
   @Put(':id')
-  async updateUser(@Param() userId: { id: string }, @Body() data: UpdateUserDto) {
-    this.usersService.updateUser(userId.id, data)
+  async updateUser(@Param() userId: { id: string }, @Body() data: UpdateUserDto): Promise<User> {
+    return this.usersService.updateUser(userId.id, data)
   }
 
   @Patch(':id')
-  async patchUser(@Param('id') userId: string, @Body() dto: UserPatchDto) {
+  async patchUser(@Param('id') userId: string, @Body() dto: UserPatchDto): Promise<User> {
     return this.usersService.patchUser(userId, dto)
   }
 

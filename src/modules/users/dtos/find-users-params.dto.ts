@@ -1,4 +1,4 @@
-export class FindUsersParamsDto {
+export interface FindUsersParamsDto {
   pageNumber?: number
   pageSize?: number
   firstName?: string

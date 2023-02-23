@@ -143,9 +143,11 @@ var MovieFranchiseService = /** @class */ (function () {
                     case 1:
                         franchiseToBeUpdated = _a.sent();
                         if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
-                            contentToBeUpdated = dto;
+                            contentToBeUpdated = franchiseToBeUpdated;
+                            contentToBeUpdated.name = dto.name;
                             contentToBeUpdated.updatedAt = new Date();
                             this.movieFranchiseRepository.update(id, contentToBeUpdated);
+                            return [2 /*return*/, contentToBeUpdated];
                         }
                         else {
                             throw new common_1.BadRequestException("Franchise can't be updated");

@@ -50,8 +50,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 var common_1 = require("@nestjs/common");
-var find_users_params_dto_1 = require("./dtos/find-users-params.dto");
-var update_user_dto_1 = require("./dtos/update-user.dto");
 var users_service_1 = require("./users.service");
 var UsersController = /** @class */ (function () {
     function UsersController(usersService) {
@@ -74,8 +72,7 @@ var UsersController = /** @class */ (function () {
     UsersController.prototype.updateUser = function (userId, data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.usersService.updateUser(userId.id, data);
-                return [2 /*return*/];
+                return [2 /*return*/, this.usersService.updateUser(userId.id, data)];
             });
         });
     };
@@ -97,7 +94,7 @@ var UsersController = /** @class */ (function () {
         (0, common_1.Get)(),
         __param(0, (0, common_1.Query)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [find_users_params_dto_1.FindUsersParamsDto]),
+        __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], UsersController.prototype, "findUsers", null);
     __decorate([
@@ -105,7 +102,7 @@ var UsersController = /** @class */ (function () {
         __param(0, (0, common_1.Param)()),
         __param(1, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [Object, update_user_dto_1.UpdateUserDto]),
+        __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", Promise)
     ], UsersController.prototype, "updateUser", null);
     __decorate([

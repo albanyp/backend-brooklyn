@@ -64,7 +64,6 @@ var common_1 = require("@nestjs/common");
 var typeorm_1 = require("@nestjs/typeorm");
 var typeorm_2 = require("typeorm");
 var user_1 = require("../../entity/user");
-var find_users_params_dto_1 = require("./dtos/find-users-params.dto");
 var constants_1 = require("../../constants");
 var patch_utils_1 = require("../../helpers/patch-utils");
 var UsersService = /** @class */ (function () {
@@ -146,6 +145,7 @@ var UsersService = /** @class */ (function () {
                                 }
                             });
                             this.userRepository.save(newUser);
+                            return [2 /*return*/, newUser];
                         }
                         return [2 /*return*/];
                 }
@@ -178,7 +178,7 @@ var UsersService = /** @class */ (function () {
     __decorate([
         __param(0, (0, common_1.Query)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [find_users_params_dto_1.FindUsersParamsDto]),
+        __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], UsersService.prototype, "findUsers", null);
     UsersService = __decorate([

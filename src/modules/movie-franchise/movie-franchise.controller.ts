@@ -25,8 +25,8 @@ export class MovieFranchiseController {
   }
 
   @Put('update/:id')
-  async updateFranchise(@Param('id') id, @Body() content: UpdateMovieFranchiseDto) {
-    this.movieFranchiseService.updateFranchise(id, content)
+  async updateFranchise(@Param('id') id, @Body() content: UpdateMovieFranchiseDto): Promise<MovieFranchise> {
+    return this.movieFranchiseService.updateFranchise(id, content)
   }
 
   @Delete(':id')

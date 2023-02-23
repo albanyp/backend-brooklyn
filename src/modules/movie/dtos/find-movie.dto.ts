@@ -1,4 +1,4 @@
-export class FindMovieDto {
+export interface FindMovieDto {
   pageNumber?: number
   pageSize?: number
   title?: string

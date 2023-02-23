@@ -50,8 +50,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieController = void 0;
 var common_1 = require("@nestjs/common");
-var find_movie_dto_1 = require("./dtos/find-movie.dto");
-var movie_dto_1 = require("./dtos/movie.dto");
 var movie_service_1 = require("./movie.service");
 var MovieController = /** @class */ (function () {
     function MovieController(movieService) {
@@ -81,16 +79,14 @@ var MovieController = /** @class */ (function () {
     MovieController.prototype.updateMovie = function (movieId, props) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.movieService.updateMovie(movieId, props);
-                return [2 /*return*/];
+                return [2 /*return*/, this.movieService.updateMovie(movieId, props)];
             });
         });
     };
     MovieController.prototype.patchMovie = function (movieId, dto) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.movieService.patchMovie(movieId, dto);
-                return [2 /*return*/];
+                return [2 /*return*/, this.movieService.patchMovie(movieId, dto)];
             });
         });
     };
@@ -113,14 +109,14 @@ var MovieController = /** @class */ (function () {
         (0, common_1.Get)(),
         __param(0, (0, common_1.Query)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [find_movie_dto_1.FindMovieDto]),
+        __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], MovieController.prototype, "findMovies", null);
     __decorate([
         (0, common_1.Post)('create'),
         __param(0, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [movie_dto_1.MovieDto]),
+        __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", Promise)
     ], MovieController.prototype, "createMovie", null);
     __decorate([
@@ -128,7 +124,7 @@ var MovieController = /** @class */ (function () {
         __param(0, (0, common_1.Param)('id')),
         __param(1, (0, common_1.Body)()),
         __metadata("design:type", Function),
-        __metadata("design:paramtypes", [String, find_movie_dto_1.FindMovieDto]),
+        __metadata("design:paramtypes", [String, Object]),
         __metadata("design:returntype", Promise)
     ], MovieController.prototype, "updateMovie", null);
     __decorate([

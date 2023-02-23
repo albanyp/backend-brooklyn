@@ -1,4 +1,4 @@
-export class UpdateMovieDto {
+export interface UpdateMovieDto {
   title: string
   groupName: string
   author: string

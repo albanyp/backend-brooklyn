@@ -63,14 +63,17 @@ export class MovieFranchiseService {
     }
   }
 
-  async updateFranchise(id: string, dto: UpdateMovieFranchiseDto) {
+  async updateFranchise(id: string, dto: UpdateMovieFranchiseDto): Promise<MovieFranchise>{
     if (dto && dto.name) {
       const franchiseToBeUpdated = await this.findFranchise(id)
 
       if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
-        const contentToBeUpdated = dto
+        const contentToBeUpdated = franchiseToBeUpdated
+        contentToBeUpdated.name = dto.name
         contentToBeUpdated.updatedAt = new Date()
         this.movieFranchiseRepository.update(id,contentToBeUpdated)
+
+        return contentToBeUpdated
       } else {
         throw new BadRequestException(`Franchise can't be updated`)
       }

@@ -1,4 +1,4 @@
-export class MovieDto {
+export interface MovieDto {
   title: string
   typeId: string
   position: number
