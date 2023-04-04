@@ -3,7 +3,7 @@ import { User } from '../../entity/user';
 import { PaginationResponse } from '../../helpers/pagination-response';
 import { FindUsersParamsDto } from './dtos/find-users-params.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { UserPatchDto } from './dtos/patch-user.dto';
+import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -11,8 +11,8 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get(':id')
-  async findUser(@Param() params): Promise<User> {
-    return this.usersService.findUser(params.id)
+  async findUserById(@Param() params): Promise<User> {
+    return this.usersService.findUserById(params.id)
   } 
 
   @Get() 
@@ -26,7 +26,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async patchUser(@Param('id') userId: string, @Body() dto: UserPatchDto): Promise<User> {
+  async patchUser(@Param('id') userId: string, @Body() dto: PatchUserDto): Promise<User> {
     return this.usersService.patchUser(userId, dto)
   }
 

@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Logger, Query } from '@nestjs/common'
 import { Movie } from '../../entity/movie'
 import { PaginationResponse } from '../../helpers/pagination-response'
-import { PatchMovieDto } from '../movie-franchise/dtos/patch-movie.dto'
-import { FindMovieDto } from './dtos/find-movie.dto'
+import { PatchMovieDto } from './dtos/patch-movie.dto' 
+import { FindMovieParamsDto } from './dtos/find-movie-params.dto'
 import { MovieDto } from './dtos/movie.dto'
 import { UpdateMovieDto } from './dtos/update-movie.dto'
 import { MovieService } from './movie.service'
@@ -13,12 +13,12 @@ export class MovieController {
   constructor(private movieService: MovieService) {}
 
   @Get(':id')
-  async findMovie(@Param() movieId: { id: string }): Promise<Movie> {
-    return this.movieService.findMovie(movieId.id)
+  async findMovieById(@Param() movieId: { id: string }): Promise<Movie> {
+    return this.movieService.findMovieById(movieId.id)
   }
 
   @Get()
-  async findMovies(@Query() props?: FindMovieDto): Promise<PaginationResponse<Movie>> {
+  async findMovies(@Query() props?: FindMovieParamsDto): Promise<PaginationResponse<Movie>> {
     return this.movieService.findMovies(props)
   }
 
@@ -28,7 +28,7 @@ export class MovieController {
   }
 
   @Put('update/:id')
-  async updateMovie(@Param('id') movieId: string, @Body() props: FindMovieDto): Promise<Movie> {
+  async updateMovie(@Param('id') movieId: string, @Body() props: FindMovieParamsDto): Promise<Movie> {
     return this.movieService.updateMovie(movieId, props)
   }
 

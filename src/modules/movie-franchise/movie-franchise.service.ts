@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { MovieFranchise } from '../../entity/movie-franchise';
 import { UpdateMovieFranchiseDto } from './dtos/update-movie-franchise.dto';
 import { v4 as uuidv4 } from 'uuid'
-import { FindMovieFranchiseDto } from './dtos/find-movie-franchise.dto';
+import { FindMovieFranchiseParamsDto } from './dtos/find-movie-franchise-params.dto';
 import { PAGE_SIZE } from '../../constants';
 import { PaginationResponse } from '../../helpers/pagination-response';
 
@@ -12,7 +12,7 @@ import { PaginationResponse } from '../../helpers/pagination-response';
 export class MovieFranchiseService {
   constructor(@InjectRepository(MovieFranchise) private movieFranchiseRepository: Repository<MovieFranchise>) { }
 
-  async findFranchises(params?: FindMovieFranchiseDto): Promise<PaginationResponse<MovieFranchise>> {
+  async findFranchises(params?: FindMovieFranchiseParamsDto): Promise<PaginationResponse<MovieFranchise>> {
     const page = params && params.pageNumber ? params.pageNumber : null
     const size = params && params.pageSize ? params.pageSize : PAGE_SIZE
     const name = params && params.name ? params.name : null
@@ -44,7 +44,7 @@ export class MovieFranchiseService {
 
   }
 
-  async findFranchise(param: string): Promise<MovieFranchise> {
+  async findFranchiseById(param: string): Promise<MovieFranchise> {
     const franchise = await this.movieFranchiseRepository.findOneBy({ id: param })
     return franchise
   }
@@ -65,7 +65,7 @@ export class MovieFranchiseService {
 
   async updateFranchise(id: string, dto: UpdateMovieFranchiseDto): Promise<MovieFranchise>{
     if (dto && dto.name) {
-      const franchiseToBeUpdated = await this.findFranchise(id)
+      const franchiseToBeUpdated = await this.findFranchiseById(id)
 
       if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
         const contentToBeUpdated = franchiseToBeUpdated

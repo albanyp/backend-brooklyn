@@ -4,23 +4,23 @@ import { Repository } from 'typeorm';
 import { Movie } from '../../entity/movie';
 import { MovieDto } from './dtos/movie.dto';
 import { v4 as uuidv4 } from 'uuid'
-import { FindMovieDto } from './dtos/find-movie.dto';
+import { FindMovieParamsDto } from './dtos/find-movie-params.dto';
 import { PAGE_SIZE } from '../../constants';
 import { UpdateMovieDto } from './dtos/update-movie.dto';
 import { PaginationResponse } from '../../helpers/pagination-response';
-import { PatchMovieDto } from '../movie-franchise/dtos/patch-movie.dto';
+import { PatchMovieDto } from './dtos/patch-movie.dto';
 import { validateEntityKeys } from '../../helpers/patch-utils';
 
 export class MovieService {
 
   constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>) { }
 
-  async findMovie(id: string): Promise<Movie> {
+  async findMovieById(id: string): Promise<Movie> {
     const movie = await this.movieRepository.findOneBy({ id: id })
     return movie
   }
 
-  async findMovies(props: FindMovieDto): Promise<PaginationResponse<Movie>> {
+  async findMovies(props: FindMovieParamsDto): Promise<PaginationResponse<Movie>> {
     const pageNumber = props.pageNumber ? props.pageNumber : 1
     const pageSize = props.pageSize ? props.pageSize : PAGE_SIZE
     const movieQueryBuilder = await this.movieRepository
@@ -75,9 +75,9 @@ export class MovieService {
     }
   }
 
-  async updateMovie(id: string, propsToBeUpdated: FindMovieDto): Promise<Movie> {
+  async updateMovie(id: string, propsToBeUpdated: FindMovieParamsDto): Promise<Movie> {
     try {
-      const movie = await this.findMovie(id)
+      const movie = await this.findMovieById(id)
 
       if (movie && propsToBeUpdated) {
         const movieProps = Object.keys(propsToBeUpdated)
@@ -103,7 +103,7 @@ export class MovieService {
   }
 
   async patchMovie(id: string, dto: PatchMovieDto): Promise<Movie> {
-    const movie = await this.findMovie(id)
+    const movie = await this.findMovieById(id)
     const validKeys = ['title', 'groupName', 'author', 'producer', 'releaseDate', 'logoUrl']
     validateEntityKeys(validKeys, dto)
 

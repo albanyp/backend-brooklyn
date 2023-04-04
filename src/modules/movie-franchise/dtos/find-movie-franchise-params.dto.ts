@@ -1,4 +1,4 @@
-export interface FindMovieFranchiseDto {
+export interface FindMovieFranchiseParamsDto {
   pageNumber?: number
   pageSize?: number
   name?: string

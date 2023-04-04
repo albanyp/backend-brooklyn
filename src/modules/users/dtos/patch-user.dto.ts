@@ -1,6 +1,6 @@
 import { User } from "../../../entity/user"
 
-export interface UserPatchDto {
+export interface PatchUserDto {
   // key: 'firstName'| 'lastName' | 'email' | 'nickname' | 'birthdate' | 'logoUrl'
   key: keyof User
   value: string
