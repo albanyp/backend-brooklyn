@@ -6,14 +6,14 @@ import { FindUsersParamsDto } from './dtos/find-users-params.dto'
 import { PAGE_SIZE } from '../../constants'
 import { UpdateUserDto } from './dtos/update-user.dto'
 import { PaginationResponse } from '../../helpers/pagination-response'
-import { UserPatchDto } from './dtos/patch-user.dto'
+import { PatchUserDto } from './dtos/patch-user.dto'
 import { validateEntityKeys } from '../../helpers/patch-utils'
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
 
-  async findUser(id: string): Promise<User> {
+  async findUserById(id: string): Promise<User> {
     const user = await this.userRepository.findOneBy({ id: id })
     return user
   }
@@ -62,7 +62,7 @@ export class UsersService {
   }
 
   async updateUser(id: string, data: UpdateUserDto): Promise<User> {
-    const user = await this.findUser(id)
+    const user = await this.findUserById(id)
     const newUser = user
 
     if (user) {
@@ -79,11 +79,11 @@ export class UsersService {
     }
   }
 
-  async patchUser(id: string, dto: UserPatchDto): Promise<User> {
+  async patchUser(id: string, dto: PatchUserDto): Promise<User> {
     const validKeys = ['firstName', 'lastName', 'email', 'birthdate', 'nickname', 'logoUrl']
     validateEntityKeys(validKeys, dto)
 
-    const userToPatch = await this.findUser(id)
+    const userToPatch = await this.findUserById(id)
 
     if (userToPatch && userToPatch[dto.key] !== dto.value) {
       this.userRepository.update(id, {
