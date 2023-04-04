@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Logger, Param, Post, Put, Query } from '@nestjs/common'
 import { MovieFranchise } from '../../entity/movie-franchise'
 import { PaginationResponse } from '../../helpers/pagination-response'
-import { FindMovieFranchiseParamsDto } from './dtos/find-movie-franchise-params.dto'
+import { FindMovieFranchiseDto } from './dtos/find-movie-franchise.dto'
 import { UpdateMovieFranchiseDto } from './dtos/update-movie-franchise.dto'
 import { MovieFranchiseService } from './movie-franchise.service'
 
@@ -10,13 +10,13 @@ export class MovieFranchiseController {
   constructor(private movieFranchiseService: MovieFranchiseService) {}
 
   @Get()
-  async findFranchises(@Query() params?: FindMovieFranchiseParamsDto): Promise<PaginationResponse<MovieFranchise>> {
+  async findFranchises(@Query() params?: FindMovieFranchiseDto): Promise<PaginationResponse<MovieFranchise>> {
     return this.movieFranchiseService.findFranchises(params)
   }
 
   @Get(':id')
-  async findFranchiseById(@Param() params: { id: string }): Promise<MovieFranchise> {
-    return this.movieFranchiseService.findFranchiseById(params.id)
+  async findFranchise(@Param() params): Promise<MovieFranchise> {
+    return this.movieFranchiseService.findFranchise(params.id)
   }
 
   @Post('create')
@@ -25,7 +25,7 @@ export class MovieFranchiseController {
   }
 
   @Put('update/:id')
-  async updateFranchise(@Param('id') id: string, @Body() content: UpdateMovieFranchiseDto): Promise<MovieFranchise> {
+  async updateFranchise(@Param('id') id, @Body() content: UpdateMovieFranchiseDto): Promise<MovieFranchise> {
     return this.movieFranchiseService.updateFranchise(id, content)
   }
 
