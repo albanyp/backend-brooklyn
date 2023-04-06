@@ -45,8 +45,6 @@ export class MovieTypeService {
       })
 
       newMovieType.id = uuidv4()
-      newMovieType.createdAt = new Date()
-      newMovieType.updatedAt = newMovieType.createdAt
 
        await this.movieTypeRepository.save(newMovieType)
        return newMovieType
@@ -59,7 +57,6 @@ export class MovieTypeService {
     if(movieType && movieType.name !== dto.name) {
       const updatedMovieType = movieType
       updatedMovieType.name = dto.name
-      updatedMovieType.updatedAt = new Date()
       await this.movieTypeRepository.update(id, updatedMovieType)
 
       return updatedMovieType

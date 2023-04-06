@@ -61,12 +61,11 @@ export class MovieService {
     try {
       const newMovie = this.movieRepository.create(movie)
       newMovie.id = uuidv4()
-      newMovie.createdAt = new Date()
-      newMovie.updatedAt = newMovie.createdAt
 
       if (movie.franchiseId && movie.franchiseId.length > 0) {
         newMovie.franchiseId = movie.franchiseId
       }
+      
       await this.movieRepository.save(newMovie)
       return newMovie
 

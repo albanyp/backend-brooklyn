@@ -53,8 +53,6 @@ export class MovieFranchiseService {
     try {
       const newMovieFranchise = this.movieFranchiseRepository.create(movieFranchise)
       newMovieFranchise.id = uuidv4()
-      newMovieFranchise.createdAt = new Date()
-      newMovieFranchise.updatedAt = newMovieFranchise.createdAt
 
       await this.movieFranchiseRepository.save(newMovieFranchise)
       return newMovieFranchise
@@ -70,7 +68,6 @@ export class MovieFranchiseService {
       if (franchiseToBeUpdated && franchiseToBeUpdated.name !== dto.name) {
         const contentToBeUpdated = franchiseToBeUpdated
         contentToBeUpdated.name = dto.name
-        contentToBeUpdated.updatedAt = new Date()
         this.movieFranchiseRepository.update(id,contentToBeUpdated)
 
         return contentToBeUpdated
