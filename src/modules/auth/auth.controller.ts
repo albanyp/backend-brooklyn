@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { SignUpDto } from './dtos/sign-up.dto'
+import { LogInDto } from './dtos/log-in.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,9 @@ export class AuthController {
   async signUp(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto)
   }
-}
 
-// http://localhost:3000/auth - GET
-// http://localhost:3000/sign-up - POST
+  @Post('login')
+  async login(@Body() LogInDto: LogInDto): Promise<{'access_token': string}> {
+    return this.authService.login(LogInDto)
+  }
+}
