@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { jwtConstants } from '../../constants';
-import { LogInDto } from './dtos/log-in.dto';
+import { LogInReqDto } from './dtos/log-in-req.dto';
 
 const PassportJwtStrategy: new(...args) => Strategy = PassportStrategy(Strategy, 'jwt');
 
@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportJwtStrategy {
     });
   }
 
-  async validate(payload: LogInDto) {
-    return { email: payload.email, password: payload.password };
+  async validate(payload: LogInReqDto) {
+    return { email: payload.email };
   }
 }

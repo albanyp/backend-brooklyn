@@ -1,12 +1,15 @@
-import { Injectable, BadRequestException } from '@nestjs/common'
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { User } from '../../entity/user'
 import { SignUpDto } from './dtos/sign-up.dto'
-import { v4 as uuidv4 } from 'uuid'  
+import { v4 as uuidv4 } from 'uuid'
 import * as bcrypt from 'bcrypt'
-import { LogInDto } from './dtos/log-in.dto'
+import { LogInReqDto } from './dtos/log-in-req.dto'
 import { JwtService } from '@nestjs/jwt';
+import { LogInResDto } from './dtos/log-in-res.dto'
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 @Injectable()
 export class AuthService {
@@ -21,7 +24,7 @@ export class AuthService {
     return 'hello world service'
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<SignUpDto> {
+  async signUp(signUpDto: SignUpDto): Promise<User> {
     try {
       const newUser = this.userRepository.create(signUpDto)
       newUser.id = uuidv4()
@@ -33,24 +36,29 @@ export class AuthService {
     }
   }
 
-  async validateUser(LogInDto: LogInDto): Promise<User> {
+  async validateUser(logInReqDto: LogInReqDto): Promise<User> {
     const user = await this.userRepository.findOne({
       where: {
-        email: LogInDto.email
+        email: logInReqDto.email
       }
     })
-    const isMatch = await bcrypt.compare(LogInDto.password, user.password)
-    if(isMatch) {
-      return user
+
+    if(user) {
+      const isMatch = await bcrypt.compare(logInReqDto.password, user.password)
+      if (isMatch) {
+        return user
+      }
     }
+
+    throw new NotFoundException()
   }
 
-  async login(LogInDto: LogInDto) {
-    if(this.validateUser(LogInDto)) {
-      const data = { email: LogInDto.email, password: LogInDto.password }
-      return {
-        access_token: this.jwtService.sign(data)
-      }
+  async login(logInDto: LogInReqDto): Promise<LogInResDto> {
+    const user = await this.validateUser(logInDto)
+    const data = { email: logInDto.email, id: user.id }
+    return {
+      accessToken: this.jwtService.sign(data, { expiresIn: '7200s'} ),
+      user
     }
   }
 
