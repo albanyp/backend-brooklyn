@@ -10,11 +10,19 @@ import { UsersModule } from './modules/users/users.module';
 import { MovieTypeModule } from './modules/movie-type/movie-type.module';
 import { MovieFranchiseModule } from './modules/movie-franchise/movie-franchise.module';
 import { MovieModule } from './modules/movie/movie.module';
+import { ServeStaticModule  } from '@nestjs/serve-static'
+import { join } from 'path';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(dbConfig),
     ConfigModule.forRoot(), 
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
+      serveStaticOptions: {
+        extensions: ['.jpeg', '.jpg']
+      }
+    }),
     AuthModule,
     UsersModule,
     MovieModule,
