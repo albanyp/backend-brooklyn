@@ -1,4 +1,4 @@
-import { User } from "../../../entity/user"
+import { User } from "../../../entity/User"
 
 export class LogInResDto {
   accessToken: string

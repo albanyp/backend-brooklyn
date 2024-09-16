@@ -1,7 +1,7 @@
 import { Injectable, Query, Logger, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from '../../entity/user'
+import { User } from '../../entity/User'
 import { FindUsersParamsDto } from './dtos/find-users-params.dto'
 import { PAGE_SIZE } from '../../constants'
 import { UpdateUserDto } from './dtos/update-user.dto'
@@ -79,7 +79,7 @@ export class UsersService {
     }
   }
 
-  async patchUser(id: string, dto: PatchUserDto): Promise<User> {
+  async patchUser(id: string, dto: any): Promise<User> {
     const validKeys = ['firstName', 'lastName', 'email', 'birthdate', 'nickname', 'logoUrl']
     validateEntityKeys(validKeys, dto)
 

@@ -3,7 +3,7 @@ import { DataSource, DataSourceOptions } from "typeorm"
 import { Movie } from "./entity/movie"
 import { MovieFranchise } from "./entity/movie-franchise"
 import { MovieType } from "./entity/movie-type"
-import { User } from "./entity/user"
+import { User } from "./entity/User"
 
 export const dbConfig: DataSourceOptions = {
   type: "postgres",

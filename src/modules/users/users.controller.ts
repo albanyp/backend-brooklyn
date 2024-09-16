@@ -1,5 +1,5 @@
 import { Controller, Get, Patch, Put, Param, Query, Body, Logger } from '@nestjs/common'
-import { User } from '../../entity/user';
+import { User } from '../../entity/User';
 import { PaginationResponse } from '../../helpers/pagination-response';
 import { FindUsersParamsDto } from './dtos/find-users-params.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';

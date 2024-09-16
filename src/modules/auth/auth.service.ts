@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from '../../entity/user'
+import { User } from '../../entity/User'
 import { SignUpDto } from './dtos/sign-up.dto'
 import { v4 as uuidv4 } from 'uuid'
 import * as bcrypt from 'bcrypt'

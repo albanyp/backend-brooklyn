@@ -3,7 +3,7 @@ import { AuthService } from './auth.service'
 import { SignUpDto } from './dtos/sign-up.dto'
 import { LogInReqDto } from './dtos/log-in-req.dto'
 import { LogInResDto } from './dtos/log-in-res.dto'
-import { User } from '../../entity/user'
+import { User } from '../../entity/User'
 
 @Controller('auth')
 export class AuthController {
