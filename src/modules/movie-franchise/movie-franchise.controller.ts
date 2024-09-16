@@ -20,7 +20,8 @@ export class MovieFranchiseController {
   }
 
   @Post('create')
-  async createFranchise(@Body() movieFranchiseDto: MovieFranchise): Promise<MovieFranchise> {
+  async createFranchise(@Body() movieFranchiseDto: UpdateMovieFranchiseDto): Promise<MovieFranchise> {
+    Logger.log('movieFranchiseDto',movieFranchiseDto)
     return this.movieFranchiseService.createFranchise(movieFranchiseDto)
   }
 

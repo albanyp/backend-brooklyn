@@ -1,3 +1,4 @@
+import { IsEmail, IsNotEmpty } from "class-validator"
 import { Entity, Column, PrimaryColumn } from "typeorm"
 import { v4 as uuidv4 } from 'uuid' 
 
@@ -10,30 +11,44 @@ export class User {
   // @Generated("uuid")
   id: string
 
-  @Column()
+  @Column({
+    nullable: false
+  })
+  @IsNotEmpty()
+  @IsEmail()
   email: string
 
-  @Column()
+  @Column({
+    nullable: false
+  })
+  @IsNotEmpty()
   password: string
 
   @Column({
-    name: 'first_name'
+    name: 'first_name',
+    nullable: false
   })
   firstName: string
 
   @Column({
-    name: 'last_name'
+    name: 'last_name',
+    nullable: false
   })
   lastName: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   nickname: string
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   birthdate: Date
 
   @Column({
-    name: 'logo_url'
+    name: 'logo_url',
+    nullable: true
   })
   logoUrl: string
 

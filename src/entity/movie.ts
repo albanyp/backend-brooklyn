@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -9,7 +10,13 @@ export class Movie {
   id: string
 
   @Column()
+  @IsNotEmpty()
   title: string
+
+  @Column({
+    nullable: true
+  })
+  description: string
 
   @Column({
     name: 'release_date',
@@ -43,16 +50,25 @@ export class Movie {
   logoUrl: string
 
   @Column({
+    name: 'cover_url',
+    nullable: true
+  })
+  coverUrl: string
+
+  @Column({
     name: 'movie_franchise_id',
     nullable: true
   })
   franchiseId: string
+  // movieFranchiseId: string
 
   @Column({
     name: 'movie_type_id',
     nullable: false
   })
+  @IsNotEmpty()
   typeId: string
+  // movieTypeId: string
 
   @Column({
     name: 'created_at',

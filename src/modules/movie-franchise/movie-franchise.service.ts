@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MovieFranchise } from '../../entity/movie-franchise';
@@ -13,12 +13,12 @@ export class MovieFranchiseService {
   constructor(@InjectRepository(MovieFranchise) private movieFranchiseRepository: Repository<MovieFranchise>) { }
 
   async findFranchises(params?: FindMovieFranchiseParamsDto): Promise<PaginationResponse<MovieFranchise>> {
-    const page = params && params.pageNumber ? params.pageNumber : null
+    const page = params && params.pageNumber ? params.pageNumber : 1
     const size = params && params.pageSize ? params.pageSize : PAGE_SIZE
     const name = params && params.name ? params.name : null
 
     if (page) {
-      const queryBuilder = await this.movieFranchiseRepository
+      const queryBuilder = this.movieFranchiseRepository
         .createQueryBuilder('movieFranchise')
         .skip((page - 1) * size)
         .take(size * page)
@@ -45,19 +45,26 @@ export class MovieFranchiseService {
   }
 
   async findFranchiseById(param: string): Promise<MovieFranchise> {
-    const franchise = await this.movieFranchiseRepository.findOneBy({ id: param })
-    return franchise
+    try {
+      const franchise = await this.movieFranchiseRepository.findOneBy({ id: param })
+      return franchise
+    } catch {
+      throw new NotFoundException()
+    }
   }
 
-  async createFranchise(movieFranchise: MovieFranchise): Promise<MovieFranchise> {
+  async createFranchise(movieFranchise: UpdateMovieFranchiseDto): Promise<MovieFranchise> {
     try {
       const newMovieFranchise = this.movieFranchiseRepository.create(movieFranchise)
       newMovieFranchise.id = uuidv4()
-
       await this.movieFranchiseRepository.save(newMovieFranchise)
       return newMovieFranchise
-    } catch {
-      throw new BadRequestException()
+    } catch (err) {
+      if(err.code === '23505') {
+        throw new BadRequestException(`${movieFranchise.name} already exists`)
+      } else {
+        throw new BadRequestException('Oops! There has been issue')
+      }
     }
   }
 

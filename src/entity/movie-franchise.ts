@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator'
 import { Column, Entity, PrimaryColumn } from 'typeorm'
 import {v4 as uuid } from 'uuid'
 
@@ -9,6 +10,7 @@ export class MovieFranchise {
   id: string
 
   @Column()
+  @IsNotEmpty()
   name: string
 
   @Column({

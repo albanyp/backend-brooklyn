@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt'
 import { jwtConstants } from '../../constants'
 // import { LocalStrategy } from './local.strategy'
 import { JwtStrategy } from './jwt.strategy'
+import { UsersService } from '../users/users.service'
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -18,7 +19,7 @@ import { JwtStrategy } from './jwt.strategy'
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService, JwtStrategy, UsersService]
 })
 
 export class AuthModule {}
